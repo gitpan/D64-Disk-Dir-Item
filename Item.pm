@@ -76,6 +76,9 @@ D64::Disk::Dir::Item - Handling individual Commodore (D64/D71/D81) disk image di
   # Check if directory item is writable and can be replaced by any new file:
   my $is_writable = $item->writable();
 
+  # Clone disk directory item:
+  my $clone = $item->clone();
+
   # Convert any given file type into its three-letter printable string representation:
   my $string = D64::Disk::Dir::Item->type_to_string($type);
 
@@ -92,7 +95,9 @@ use strict;
 use utf8;
 use warnings;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
+
+use parent 'Clone';
 
 use Data::Dumper;
 use Readonly;
@@ -803,7 +808,7 @@ sub validate {
     return $is_valid;
 }
 
-=head2
+=head2 empty
 
 Check if directory item contains information about the actual disk file:
 
@@ -821,7 +826,7 @@ sub empty {
     return $is_empty;
 }
 
-=head2
+=head2 writable
 
 Check if slot occupied by this item in a disk directory is writable and can be replaced by any new file that would be written into disk:
 
@@ -838,6 +843,12 @@ sub writable {
 
     return $is_writable;
 }
+
+=head2 clone
+
+Clone disk directory item:
+
+  my $clone = $item->clone();
 
 =head2 type_to_string
 
@@ -918,7 +929,7 @@ Pawel Krol, E<lt>pawelkrol@cpan.orgE<gt>.
 
 =head1 VERSION
 
-Version 0.02 (2013-02-09)
+Version 0.03 (2013-02-11)
 
 =head1 COPYRIGHT AND LICENSE
 
